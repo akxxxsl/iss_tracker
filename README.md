@@ -6,12 +6,12 @@ The project was completed in approximately 45 minutes with the assistance of Cha
 ## Technology Stack
 This project utilizes the following technologies:
 
---HTML5
---CSS3
---JavaScript
---Leaflet.js - An open-source JavaScript library for mobile-friendly interactive maps.
---OpenStreetMap - A free, editable map of the whole world that is being built by volunteers largely from scratch and released with an open-content license.
---Open Notify API - An open-source project to provide a simple programming interface for some of NASA’s awesome data.
+* HTML5
+* CSS3
+* JavaScript
+* Leaflet.js - An open-source JavaScript library for mobile-friendly interactive maps.
+* OpenStreetMap - A free, editable map of the whole world that is being built by volunteers largely from scratch and released with an open-content license.
+* Open Notify API - An open-source project to provide a simple programming interface for some of NASA’s awesome data.
 
 ## Features
 Real-time tracking of the ISS's current position on a map.
