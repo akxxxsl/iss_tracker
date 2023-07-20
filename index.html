@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <title>ISS Map by @akxxxsl</title>
+</head>
+<body>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+
+html{
+    font-family: 'Space Grotesk', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    height: 100vh;
+    width: 100vw;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    margin:0;
+    background-color: #AAD3DF;
+    color: black;
+}
+
+div#info{
+    display: flex;
+    height: 25vh;
+    padding : 0 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+div#map{
+    height: 75vh;
+}
+
+h1{
+    text-shadow: -1px 0 #F2EFE9, 0 1px #F2EFE9, 1px 0 #F2EFE9, 0 -1px #F2EFE9;
+}
+
+p#about{
+    text-shadow: -1px 0 #F2EFE9, 0 1px #F2EFE9, 1px 0 #F2EFE9, 0 -1px #F2EFE9;
+}
+
+@media (max-width: 1200px) {
+    p#about {
+        display: none;
+    }
+}
+
+</style>
+
+    <div id="info">
+        <h1>ISS Map by @akxxxsl</h1>
+        <p id="about">The International Space Station (ISS) is a multi-nation construction project that is the largest single structure humans have ever put into space. Its main construction was completed between 1998 and 2011, although the station continually evolves to include new missions and experiments. It has been continuously occupied since November 2000. As of January 2018, 230 individuals from 18 countries have visited the International Space Station. Top participating countries include the United States, Russia, and Canada. The ISS includes contributions from 15 nations. NASA (United States), Roscosmos (Russia) and the European Space Agency are the major partners of the space station who contribute most of the funding; the other partners are the Japanese Aerospace Exploration Agency and the Canadian Space Agency.</p>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+    // Créez une carte et réglez la longitude et la latitude sur une valeur initiale et le niveau de zoom
+    var map = L.map('map', { zoomControl: false }).setView([0, 0], 4);  // Niveau de zoom par défaut fixé à 4
+
+    // Définissez le layer de la carte (ici, OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Désactive le glissement (dragging), le zoom avec double clic, et le zoom tactile sur la carte
+    map.dragging.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.touchZoom.disable();
+
+    // Créez une icône personnalisée
+    var issIcon = L.icon({
+        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg',
+        iconSize: [100, 100],
+        iconAnchor: [50, 100],
+    });
+
+    // Marqueur pour l'ISS
+    var issMarker;
+
+    // Fonction pour mettre à jour la position de l'ISS
+    function updateISSPosition() {
+        // Appel à votre API
+        fetch('http://api.open-notify.org/iss-now.json')
+            .then(response => response.json())
+            .then(data => {
+                var lat = data.iss_position.latitude;
+                var lon = data.iss_position.longitude;
+
+                // Si le marqueur existe déjà, mettez à jour sa position
+                if (issMarker) {
+                    issMarker.setLatLng([lat, lon]);
+                }
+                // Sinon, créez un nouveau marqueur
+                else {
+                    issMarker = L.marker([lat, lon], {icon: issIcon}).addTo(map);
+                }
+
+                // Centre la carte sur la position de l'ISS avec une transition fluide
+                map.flyTo([lat, lon], map.getZoom());
+            })
+            .catch(error => console.error(error));
+    }
+
+    // Appel initial pour obtenir la position de l'ISS au chargement de la page
+    updateISSPosition();
+
+    // Mise à jour de la position de l'ISS toutes les 5 secondes
+    setInterval(updateISSPosition, 5000);
+    </script>
+
+</body>
+</html>
