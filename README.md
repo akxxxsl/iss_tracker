@@ -1,6 +1,6 @@
 # ISS Map Viewer Tracker
 
-!(https://img001.prntscr.com/file/img001/VqtNII9LRgi4fJgT5_vZEw.png)
+![preview](https://img001.prntscr.com/file/img001/VqtNII9LRgi4fJgT5_vZEw.png)
 
 This project is a web-based viewer that tracks the position of the International Space Station (ISS) on a map in real-time. The application refreshes ISS's position every 5 seconds, creating an interactive and visually engaging experience for the users. The user interface also includes a brief description of the ISS, it's history, and contributions from different countries.
 
